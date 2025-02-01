@@ -1,0 +1,97 @@
+[commit]
+  gpgsign = false
+
+[user]
+  name = {{username}}
+  email = {{username}}@{{hostname}}
+
+[core]
+  whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  quotepath = off
+  pager = delta
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+[alias]
+  m-ff='merge --ff-only'
+  m-nff='merge --no-ff'
+  ci = commit
+  diffis = diff --ignore-space-change
+  # list all new commits after you fetched, with stats, but excluding merges
+  last-ci = log ORIG_HEAD.. --stat --no-merges
+  # log amélioré
+  lg = log --all --decorate --graph --stat --raw
+  graph2 = log --oneline --abbrev-commit --all --graph --decorate=auto --color --date-order --date=iso-strict
+  graph = log --graph --oneline --all --decorate --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen%cd (%cr) %C(bold blue)<%an by %cn>%Creset' --abbrev-commit --date=iso --date-order
+  lgf = log --all --full-history --decorate --source --graph --stat --raw --date-order
+  # log avec diff
+  llg = log  --all --decorate --graph --stat --raw -p --no-merges --ignore-space-change --date-order
+  llgg = "!f() { git log --color=always --decorate --stat --raw -p --ignore-space-change \"$1\"; }; f"
+  llgf = log --decorate --all --full-history --source --graph --stat --raw -p --no-merges --ignore-space-change --date-order
+  lol = log --all --decorate --graph --decorate --oneline --abbrev-commit --ignore-space-change --date-order
+  lolf = log  --all --full-history --source --graph --decorate --oneline --abbrev-commit --ignore-space-change --date-order
+  str-search = "!f() { git llg -S \"$1\" --all --full-history --decorate --source -- \"$2\"; }; f"
+  regexp-search = "!f() { git llg -G \"$1\" --all --source -- \"$2\"; }; f"
+  # log sommaire
+  lgs = log --decorate --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lgsf = log --decorate --all --source --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  tree ="!f() { /home/pi/code/git-tree/target/debug/git-tree -- --format=\"%C(auto)%h %d %<(50,trunc)%s\"; }; f"
+  graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+  llco = "!f() { for branch in `git branch -r | grep -v HEAD`;do echo `git show --format=\"%ci²%Cred%h%Creset²-%C(yellow)%d%Creset²%s²%Cgreen(%cr)²%C(bold blue)<%an>%Creset\" $branch | head -n 1`; done | sort -r | column -t -s '²' ; }; f"
+  lco = "!f() { git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:red)%(objectname:short)%(color:reset)²%(color:yellow)%(refname:short)%(color:reset)²(%(color:green)%(committerdate:relative)%(color:reset))²%(authorname)²%(contents:subject)' | column -t -s '²'; }; f"
+  div = divergence.sh
+[status]
+  submodulesummary = true
+[fetch]
+  recursesubmodules = on-demand
+[diff]
+  colorMoved = default
+  renameLimit = 10000
+[diff "odf"]
+  textconv=odt2txt
+[push]
+  default = matching
+[diff "gpg"]
+  textconv = gpg --no-tty --decrypt
+[pull]
+	ff = only
+[init]
+	defaultBranch = master
+[merge]
+    conflictstyle = diff3
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    side-by-side = true
+    true-color = always
+[delta "decorations"]
+    commit-decoration-style = blue ol
+    commit-style = raw
+    file-style = omit
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax
+
+# See https://stackoverflow.com/q/78740246
+[http]
+    postBuffer = 52428800
+    maxRequestBuffer = 100M
+    version = HTTP/1.1
+    lowSpeedLimit = 1000
+    lowSpeedTime = 300

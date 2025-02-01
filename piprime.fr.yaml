@@ -1,0 +1,191 @@
+- name: install
+  hosts: gandi
+  vars:
+    sshd_Port: 201
+    old_username: debian
+    new_username: pi
+    hostname: piprime.fr
+    sudomain: www
+    ssh_config: gandir
+  handlers:
+    - name: Restart ssh service
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
+  tasks:
+    - name: Create random but idempotent password
+      ansible.builtin.set_fact:
+        rpassword: "{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname) }}"
+
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+    - name: Upgrade the OS (apt-get dist-upgrade)
+      ansible.builtin.apt:
+        upgrade: dist
+
+    - name: Update sshd Configuration
+      ansible.builtin.template:
+        src: system-tree/default/tree/etc/ssh/sshd_config
+        dest: /etc/ssh/sshd_config
+        owner: root
+        group: root
+        mode: "0600"
+        validate: /usr/sbin/sshd -t -f %s
+        backup: yes
+      notify: Restart ssh service
+
+    - name: Set authorized key for root
+      ansible.posix.authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', 'system-tree/default/tree/root/.ssh/id_rsa.pub') }}"
+        key_options: ""
+        exclusive: yes
+
+    - name: "Configure hostname to {{ hostname }}"
+      ansible.builtin.hostname:
+        name: "{{ hostname }}"
+      become: true
+
+    - name: Check if {{ old_username }} user exists
+      ansible.builtin.command: id -un {{ old_username }} 2>/dev/null
+      register: old_user
+      ignore_errors: yes
+
+      # - name: Kill all running {{ old_username }} user processes
+      #   command: pkill -u {{ old_username }}
+      #   when: old_user.rc == 0
+      #   ignore_errors: yes
+
+    - name: Get default group name for {{ old_username }} user
+      ansible.builtin.command: id -gn {{ old_username }}
+      register: old_group
+      when: old_user.rc == 0
+
+    - name: Rename pi group
+      command: groupmod -n {{ new_username }} {{ old_group.stdout }}
+      when: (old_user.rc == 0 and old_group.stdout != new_username)
+
+    - name: Rename user
+      command: |
+        usermod --login {{ old_username }} {{ old_username }}
+        usermod -u 1000 -g 1000 {{ new_username }}
+        groupmod -g 1000 {{ new_username }}
+        usermod -aG {{ new_username }},adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev {{ new_username }}
+        chsh -s /usr/bin/bash {{ new_username }}
+      when: old_user.rc == 0
+
+    - name: Move home directory "{{ old_username }}" to "{{ new_username }}"
+      user:
+        name: "{{ old_username }}"
+        home: "/home/{{ new_username }}"
+        move_home: yes
+      when: old_user.rc == 0
+
+    - name: Set new password to "{{ new_username }}"
+      user:
+        name: "{{ new_username }}"
+        password: "{{ rpassword | password_hash('sha512') }}"
+      when: old_user.rc == 0
+
+    - name: Remove the {{ old_username }} user
+      user:
+        name: "{{ old_username }}"
+        state: absent
+        remove: yes
+      when: old_user.rc == 0
+
+    - name: Remove the user's home directory of {{ old_username }} user
+      file:
+        path: /home/{{ old_username }}
+        state: absent
+      when: old_user.rc == 0
+
+    - name: Set authorized key for pi
+      ansible.posix.authorized_key:
+        user: pi
+        state: present
+        key: "{{ lookup('file', 'system-tree/default/tree/root/.ssh/id_rsa.pub') }}"
+        key_options: ""
+        exclusive: yes
+
+    - name: Registering files to copy
+      set_fact:
+        homeUserFiles:
+          - system-tree/default/tree/root/.bash_profile
+          - system-tree/default/tree/root/.bashrc
+          - system-tree/default/tree/root/.gitconfig
+          - system-tree/default/tree/root/.inputrc
+          - system-tree/default/tree/root/.profile
+          - system-tree/default/tree/root/.psqlrc
+    - name: Print the find_result
+      ansible.builtin.debug:
+        msg: "{{ homeUserFiles }}"
+
+    - name: Copy files root home files
+      vars:
+        username: root
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: /root
+        owner: root
+        group: root
+        mode: u=rw,g=-rwx,o=-rwx
+        backup: yes
+      loop: "{{ homeUserFiles }}"
+
+    - name: Copy {{ new_username }} user config files
+      vars:
+        username: "{{ new_username }}"
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: /home/{{ new_username }}
+        owner: "{{ new_username }}"
+        group: "{{ new_username }}"
+        mode: u=rw,g=r,o=r
+        backup: yes
+      loop: "{{ homeUserFiles }}"
+
+    - name: Install a list of packages
+      ansible.builtin.apt:
+        pkg:
+          - git
+          - rsync
+          - htop
+          - nano
+          - locales
+          - fonts-powerline
+          - powerline-gitstatus
+          - tree
+          - exa
+          - delta
+          - iptables
+          - nmap
+        state: latest
+
+    - name: Synchronizing etc/network using rsync delegating to host (push)
+      ansible.posix.synchronize:
+        src: system-tree/default/tree/etc/network/
+        dest: /etc/network/
+      delegate_to: localhost
+
+    - name: Create git user
+      user:
+        name: git
+        shell: /usr/bin/git-shell
+        home: /srv/git
+        system: yes
+    - name: Add SSH key to git user
+      authorized_key:
+        user: git
+        key: "{{ lookup('file', 'system-tree/default/tree/root/.ssh/id_rsa.pub') }}"
+        state: present
+    - name: Initialize bare repository
+      command: git init --bare --shared=group /srv/git/ansible.git
+      args:
+        creates: /srv/git/ansible.git/HEAD
+      become: yes
+      become_user: git
