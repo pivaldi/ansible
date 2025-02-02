@@ -1,0 +1,12 @@
+- name: Main playbook
+  hosts: all
+  become: yes
+  tasks:
+    - name: apt
+      include_tasks: tasks/apt.yml
+    - name: host
+      include_tasks: tasks/host.yml
+    - name: ssh
+      include_tasks: tasks/ssh.yml
+    - name: node
+      include_tasks: tasks/node.yml

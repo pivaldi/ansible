@@ -1,0 +1,36 @@
+- name: Registering files to copy
+  set_fact:
+    homeUserFiles:
+      - ../system-tree/default/tree/root/.bash_profile
+      - ../system-tree/default/tree/root/.bashrc
+      - ../system-tree/default/tree/root/.gitconfig
+      - ../system-tree/default/tree/root/.inputrc
+      - ../system-tree/default/tree/root/.profile
+      - ../system-tree/default/tree/root/.psqlrc
+- name: Print the find_result
+  ansible.builtin.debug:
+    msg: "{{ homeUserFiles }}"
+
+- name: Copy files root home files
+  vars:
+    username: root
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: /root
+    owner: root
+    group: root
+    mode: u=rw,g=-rwx,o=-rwx
+    backup: yes
+  loop: "{{ homeUserFiles }}"
+
+- name: Copy {{ new_username }} user config files
+  vars:
+    username: "{{ new_username }}"
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: /home/{{ new_username }}
+    owner: "{{ new_username }}"
+    group: "{{ new_username }}"
+    mode: u=rw,g=r,o=r
+    backup: yes
+  loop: "{{ homeUserFiles }}"

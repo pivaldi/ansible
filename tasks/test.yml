@@ -1,0 +1,7 @@
+---
+- name: Retrieve inventory hostname
+  hosts: all
+  tasks:
+    - name: Print the inventory hostname
+      ansible.builtin.debug:
+        msg: "The inventory hostname is {{ inventory_hostname }}"

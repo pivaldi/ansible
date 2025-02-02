@@ -1,0 +1,5 @@
+- name: Configure User Bash Profile with Git
+  hosts: all
+  tasks:
+    - name: ../tasks/user-config.yml
+      include_tasks: ../tasks/user-config.yml

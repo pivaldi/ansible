@@ -1,0 +1,27 @@
+- name: sshd config and ssh root user config
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update sshd Configuration
+      ansible.builtin.template:
+        src: ../system-tree/default/tree/etc/ssh/sshd_config
+        dest: /etc/ssh/sshd_config
+        owner: root
+        group: root
+        mode: "0600"
+        validate: /usr/sbin/sshd -t -f %s
+        backup: yes
+      notify: Restart ssh service
+
+    - name: Set authorized key for root
+      ansible.posix.authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '../system-tree/default/tree/root/.ssh/id_rsa.pub') }}"
+        key_options: ""
+        exclusive: yes
+
+    - name: Restart ssh service
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
