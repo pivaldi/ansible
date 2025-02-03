@@ -1,6 +1,0 @@
-- name: Apt Upgrade all
-  hosts: all
-  become: yes
-  tasks:
-    - name: ../tasks/apt.yml
-      include_tasks: ../tasks/apt.yml

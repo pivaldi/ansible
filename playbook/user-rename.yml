@@ -1,6 +1,0 @@
-- name: Rename {{ old_username }} to {{ new_username }}
-  hosts: all
-  become: yes
-  tasks:
-    - name: ../tasks/user-rename.yml
-      include_tasks: ../tasks/user-rename.yml

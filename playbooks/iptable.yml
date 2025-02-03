@@ -1,0 +1,5 @@
+- name: Configure Iptable and Network
+  hosts: all
+  tasks:
+    - name: ../roles/commun/tasks/iptable.yml
+      include_tasks: ../roles/commun/tasks/iptable.yml

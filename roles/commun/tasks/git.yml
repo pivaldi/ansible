@@ -7,5 +7,5 @@
 - name: Add SSH key to git user
   authorized_key:
     user: git
-    key: "{{ lookup('file', 'system-tree/default/tree/root/.ssh/id_rsa.pub') }}"
+    key: "{{ lookup('file', '../templates/root/.ssh/id_rsa.pub') }}"
     state: present

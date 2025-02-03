@@ -1,0 +1,6 @@
+# Variables specific to webdavservers_caddy
+caddy_version: "2.4.6"
+webdav_user: "webdav_user" ## TODO: get from pass
+webdav_password: "webdav_password" ## TODO: get from pass
+webdav_directory: "/var/www/webdav" ## TODO: crypt and mount directory
+max_clients: 10

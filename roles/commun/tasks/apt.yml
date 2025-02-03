@@ -26,4 +26,5 @@
           - nmap
           - gpg
           - gpg
+          - crowdsec
         state: latest

@@ -1,5 +1,5 @@
 - name: Synchronizing etc/network
   ansible.posix.synchronize:
-    src: ../system-tree/default/tree/etc/network/
+    src: ../files/etc/network/
     dest: /etc/network/
   delegate_to: localhost

@@ -1,0 +1,8 @@
+---
+import_playbook: webserver_caddy.yml
+
+- name: Configure WebDAV servers
+  hosts: webdav_caddy
+  become: yes
+  roles:
+    - webdav_caddy

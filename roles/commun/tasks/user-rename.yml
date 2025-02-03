@@ -58,6 +58,6 @@
   ansible.posix.authorized_key:
     user: "{{ new_username }}"
     state: present
-    key: "{{ lookup('file', '../system-tree/default/tree/root/.ssh/id_rsa.pub') }}"
+    key: "{{ lookup('file', '../templates/root/.ssh/id_rsa.pub') }}"
     key_options: ""
     exclusive: yes

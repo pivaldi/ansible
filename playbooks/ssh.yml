@@ -1,0 +1,6 @@
+- name: Configure Sshd and Root User
+  hosts: all
+  become: yes
+  tasks:
+    - name: ../roles/commun/tasks/ssh.yml
+      include_tasks: ../roles/commun/tasks/ssh.yml

@@ -1,6 +1,0 @@
-- name: Set hostname
-  hosts: all
-  become: yes
-  tasks:
-    - name: ../tasks/host.yml
-      include_tasks: ../tasks/host.yml

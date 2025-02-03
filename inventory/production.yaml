@@ -1,4 +1,4 @@
-gandi:
+all:
   hosts:
     piprime.fr:
       ansible_host: server1.piprime.fr
@@ -7,3 +7,13 @@ gandi:
       ansible_ssh_private_key_file: ~/.ssh/id_rsa_2025
       old_username: debian
       new_username: pi
+  children:
+    webserver_caddy:
+      hosts:
+        piprime.fr:
+    webdav_caddy:
+      hosts:
+        piprime.fr:
+    # dbservers:
+    #   hosts:
+    #     piprime.fr

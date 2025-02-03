@@ -4,7 +4,7 @@
   tasks:
     - name: Update sshd Configuration
       ansible.builtin.template:
-        src: ../system-tree/default/tree/etc/ssh/sshd_config
+        src: ../templates/etc/ssh/sshd_config
         dest: /etc/ssh/sshd_config
         owner: root
         group: root
@@ -17,7 +17,7 @@
       ansible.posix.authorized_key:
         user: root
         state: present
-        key: "{{ lookup('file', '../system-tree/default/tree/root/.ssh/id_rsa.pub') }}"
+        key: "{{ lookup('file', '../templates/root/.ssh/id_rsa.pub') }}"
         key_options: ""
         exclusive: yes
 

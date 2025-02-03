@@ -1,12 +1,12 @@
 - name: Registering files to copy
   set_fact:
     homeUserFiles:
-      - ../system-tree/default/tree/root/.bash_profile
-      - ../system-tree/default/tree/root/.bashrc
-      - ../system-tree/default/tree/root/.gitconfig
-      - ../system-tree/default/tree/root/.inputrc
-      - ../system-tree/default/tree/root/.profile
-      - ../system-tree/default/tree/root/.psqlrc
+      - ../templates/root/.bash_profile
+      - ../templates/root/.bashrc
+      - ../templates/root/.gitconfig
+      - ../templates/root/.inputrc
+      - ../templates/root/.profile
+      - ../templates/root/.psqlrc
 - name: Print the find_result
   ansible.builtin.debug:
     msg: "{{ homeUserFiles }}"
