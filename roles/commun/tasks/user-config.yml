@@ -1,3 +1,4 @@
+---
 - name: Registering files to copy
   set_fact:
     homeUserFiles:
@@ -23,7 +24,7 @@
     backup: yes
   loop: "{{ homeUserFiles }}"
 
-- name: Copy {{ new_username }} user config files
+- name: Copy user new_username config files
   vars:
     username: "{{ new_username }}"
   ansible.builtin.template:
@@ -34,3 +35,4 @@
     mode: u=rw,g=r,o=r
     backup: yes
   loop: "{{ homeUserFiles }}"
+  when: new_username is defined

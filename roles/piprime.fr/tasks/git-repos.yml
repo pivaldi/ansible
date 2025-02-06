@@ -1,0 +1,11 @@
+---
+- name: Ensure git user is configured
+  include_tasks: ../../git-repo/tasks/main.yml
+  when: git_user_configured is not defined or not git_user_configured
+- name: Initialize bare repository
+  command: git init --bare --shared=group /srv/git/ansible.git
+  args:
+    creates: /srv/git/ansible.git/HEAD
+  become: yes
+  become_user: git
+  when: git_user_configured is defined and git_user_configured

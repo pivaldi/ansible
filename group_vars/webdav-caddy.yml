@@ -1,4 +1,4 @@
-# Variables specific to webdavservers_caddy
+# Variables specific to webdav-caddy
 caddy_version: "2.4.6"
 webdav_user: "webdav_user" ## TODO: get from pass
 webdav_password: "webdav_password" ## TODO: get from pass

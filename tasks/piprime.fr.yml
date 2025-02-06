@@ -4,15 +4,7 @@
     old_username: debian
     new_username: pi
   handlers:
-    - name: Restart ssh service
-      ansible.builtin.service:
-        name: ssh
-        state: restarted
   tasks:
-    - name: Create random but idempotent password
-      ansible.builtin.set_fact:
-        rpassword: "{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname) }}"
-
     - name: Update sshd Configuration
       ansible.builtin.template:
         src: system-tree/default/tree/etc/ssh/sshd_config

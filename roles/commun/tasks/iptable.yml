@@ -1,3 +1,4 @@
+---
 - name: Synchronizing etc/network
   ansible.posix.synchronize:
     src: ../files/etc/network/

@@ -1,6 +1,0 @@
-- name: Configure Git user and Git barre repo
-  hosts: all
-  become: yes
-  tasks:
-    - name: ../roles/commun/tasks/git.yml
-      include_tasks: ../roles/commun/tasks/git.yml

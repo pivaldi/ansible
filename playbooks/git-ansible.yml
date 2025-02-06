@@ -1,0 +1,5 @@
+- name: Create Git Ansible repo
+  hosts: git-repo
+  tasks:
+    - name: ../roles/git-repo/tasks/repo_ansible.yml
+      include_tasks: ../roles/git-repo/tasks/repo_ansible.yml

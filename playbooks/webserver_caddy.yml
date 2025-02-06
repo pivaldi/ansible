@@ -1,7 +1,7 @@
 ---
 - name: Configure all caddy webserver
-  hosts: all
+  hosts: webserver-caddy
   become: yes
   roles:
     - common
-    - caddy
+    - webserver-caddy

@@ -1,3 +1,4 @@
+---
 - name: Set hostname
   hosts: all
   tasks:
@@ -5,3 +6,11 @@
       ansible.builtin.hostname:
         name: "{{ inventory_hostname }}"
       become: true
+- name: Add IP address to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 {{ inventory_hostname }}"
+    state: present
+    create: yes
+    backup: yes
+  become: true

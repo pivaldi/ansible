@@ -14,7 +14,7 @@
     owner: root
     group: root
     mode: "0644"
-  notify: Restart Caddy
+  notify: RestartCaddy
 
 - name: Ensure Caddy service is enabled and started
   ansible.builtin.service:

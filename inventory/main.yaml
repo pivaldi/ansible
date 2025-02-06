@@ -7,13 +7,9 @@ all:
       ansible_ssh_private_key_file: ~/.ssh/id_rsa_2025
       old_username: debian
       new_username: pi
+      node_version: 20
   children:
-    webserver_caddy:
-      hosts:
-        piprime.fr:
+    git_repo:
+      hosts: piprime.fr
     webdav_caddy:
-      hosts:
-        piprime.fr:
-    # dbservers:
-    #   hosts:
-    #     piprime.fr
+      hosts: piprime.fr

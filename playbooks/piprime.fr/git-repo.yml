@@ -1,0 +1,6 @@
+- name: Create Git repos
+  hosts: piprime.fr
+  become: yes
+  tasks:
+    - name: ../../roles/piprime_fr/tasks/git-repos.yml
+      include_tasks: ../../roles/piprime_fr/tasks/git-repos.yml

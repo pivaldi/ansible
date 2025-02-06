@@ -1,0 +1,3 @@
+---
+- name: Initialize Git repositories
+  include_tasks: git-repos.yml

@@ -1,0 +1,5 @@
+- name: Specific tasks on piprime.fr
+  hosts: piprime.fr
+  become: yes
+  roles:
+    - piprime.fr

@@ -1,6 +1,7 @@
-- name: Rename {{ old_username }} to {{ new_username }}
+- name: Rename old_username to new_username
   hosts: all
   become: yes
   tasks:
     - name: ../roles/commun/tasks/user-rename.yml
       include_tasks: ../roles/commun/tasks/user-rename.yml
+      when: old_username is defined and new_username is defined

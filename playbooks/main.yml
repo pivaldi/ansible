@@ -1,0 +1,23 @@
+---
+- name: Configure all servers
+  hosts: all
+  become: yes
+  roles:
+    - common
+- name: Configure Caddy web servers
+  hosts: webserver_caddy
+  become: yes
+  roles:
+    - webserver-caddy
+- name: Configure WebDAV servers with Caddy
+  hosts: webdav_caddy
+  become: yes
+  roles:
+    - webdav-caddy
+- name: Configure Git servers
+  hosts: git_repo
+  become: yes
+  roles:
+    - git-repo
+- name: Specific tasks on piprime.fr
+  import_playbook: piprime.fr/main.yml

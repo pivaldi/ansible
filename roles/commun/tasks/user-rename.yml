@@ -1,3 +1,4 @@
+---
 - name: Include password setting fact "rpassword"
   include_tasks: password.yml
 - name: Check if {{ old_username }} user exists

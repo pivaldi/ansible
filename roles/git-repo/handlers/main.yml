@@ -1,0 +1,4 @@
+---
+- name: GitUserConfigured
+  ansible.builtin.set_fact:
+    git_user_configured: true
