@@ -1,0 +1,19 @@
+---
+# - name: ssh.yml
+#   include_tasks: ssh.yml
+# - name: apt.yml
+#   include_tasks: apt.yml
+# - name: user-rename.yml
+#   include_tasks: user-rename.yml
+#   when: old_username is defined and new_username is defined
+# - name: user-create.yml
+#   include_tasks: user-create.yml
+#   when: old_username is not defined and new_username is defined
+# - name: user-config.yml
+#   include_tasks: user-config.yml
+# - name: iptable.yml
+#   include_tasks: iptable.yml
+# - name: host.yml
+#   include_tasks: host.yml
+- name: node.yml
+  include_tasks: node.yml

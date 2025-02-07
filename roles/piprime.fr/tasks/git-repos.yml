@@ -6,6 +6,5 @@
   command: git init --bare --shared=group /srv/git/ansible.git
   args:
     creates: /srv/git/ansible.git/HEAD
-  become: yes
   become_user: git
   when: git_user_configured is defined and git_user_configured

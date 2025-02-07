@@ -8,6 +8,10 @@
 all:
 	ansible-playbook playbooks/main.yml
 
+.PHONY: upgrade
+upgrade:
+	ansible-playbook playbooks/apt.yml
+
 .PHONY: ping
 piprimefr-ping:
 	ansible piprimefr -m ping && ansible piprimefr -a 'echo test OK'

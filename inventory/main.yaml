@@ -8,8 +8,13 @@ all:
       old_username: debian
       new_username: pi
       node_version: 20
+      webdav_login: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | grep ''login:'' | awk ''{print $2}''") }}'
+      webdav_password: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | head -1") }}'
+      webdav_directory: "/srv/www/webdav"
   children:
     git_repo:
+      hosts: piprime.fr
+    webserver_caddy:
       hosts: piprime.fr
     webdav_caddy:
       hosts: piprime.fr

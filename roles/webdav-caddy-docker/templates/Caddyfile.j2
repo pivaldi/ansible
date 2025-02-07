@@ -5,7 +5,7 @@
 }
 
 webdav.{{ inventory_hostname }} {
-  root * {{ webdav_directory }}
+  root * /srv
   basicauth {
     {{ webdav_login }} {{ webdav_password }}
   }

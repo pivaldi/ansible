@@ -1,0 +1,11 @@
+---
+- name: "Configure hostname to {{ inventory_hostname }}"
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+- name: Add IP address to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 {{ inventory_hostname }}"
+    state: present
+    create: yes
+    backup: yes

@@ -1,6 +1,5 @@
 - name: Install node.js
   hosts: all
-  become: yes
   tasks:
     - name: ../roles/commun/tasks/node.yml
       include_tasks: ../roles/commun/tasks/node.yml

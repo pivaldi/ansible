@@ -1,6 +1,5 @@
 - name: Create new_username
   hosts: all
-  become: yes
   tasks:
     - name: ../roles/commun/tasks/user-create.yml
       include_tasks: ../roles/commun/tasks/user-create.yml

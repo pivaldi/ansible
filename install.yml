@@ -1,6 +1,5 @@
 - name: Main playbook
   hosts: all
-  become: yes
   tasks:
     - name: apt
       include_tasks: tasks/apt.yml

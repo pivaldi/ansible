@@ -144,5 +144,4 @@
       command: git init --bare --shared=group /srv/git/ansible.git
       args:
         creates: /srv/git/ansible.git/HEAD
-      become: yes
       become_user: git

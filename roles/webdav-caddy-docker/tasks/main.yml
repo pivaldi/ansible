@@ -1,0 +1,41 @@
+---
+- name: Create Caddyfile template
+  template:
+    src: Caddyfile.j2
+    dest: /srv/caddy/Caddyfile
+
+- name: Create WebDAV directory
+  file:
+    path: /srv/webdav
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+
+- name: Create Docker Compose file
+  copy:
+    content: |
+      version: '3.8'
+
+      services:
+        caddy_webdav:
+          image: caddy:2
+          container_name: caddy_webdav
+          restart: always
+          volumes:
+            - /srv/caddy/Caddyfile:/etc/caddy/Caddyfile
+            - /srv/webdav:/srv
+          networks:
+            - web_network
+          ports:
+            - "8080:80"
+
+      networks:
+        web_network:
+          driver: bridge
+    dest: /srv/docker-compose.yml
+
+- name: Run Docker Compose
+  command: docker-compose up -d
+  args:
+    chdir: /srv

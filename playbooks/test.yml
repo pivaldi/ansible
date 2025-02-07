@@ -1,0 +1,11 @@
+- name: Test
+  hosts: piprime.fr
+  tasks:
+    # - name: Retrieve pass web dav password
+    #   ansible.builtin.set_fact:
+    #     webdav_login: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | grep ''login:'' | awk ''{print $2}''") }}'
+    #     webdav_password: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | head -1") }}'
+    #   delegate_to: localhost
+    - name: Test 1
+      ansible.builtin.debug:
+        msg: "{{ webdav_login }} -- {{ webdav_password }} "
