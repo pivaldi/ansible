@@ -1,13 +1,13 @@
 ---
 - name: Create git user
   user:
-        name: git
-        shell: /usr/bin/git-shell
-        home: /srv/git
-        system: yes
+    name: git
+    shell: /usr/bin/git-shell
+    home: /srv/git
+    system: yes
 - name: Add SSH key to git user
   authorized_key:
-        user: git
-        key: "{{ lookup('file', '../../commun/templates/root/.ssh/id_rsa.pub') }}"
-        state: present
+    user: git
+    key: "{{ lookup('file', '../../common/templates/root/.ssh/id_rsa.pub') }}"
+    state: present
   notify: "GitUserConfigured"

@@ -1,6 +1,6 @@
 ---
-- name: Ensure git user is configured
-  include_tasks: ../../git-repo/tasks/main.yml
+- ansible.builtin.include_role:
+    name: git-repo
   when: git_user_configured is not defined or not git_user_configured
 - name: Initialize bare repository
   command: git init --bare --shared=group /srv/git/ansible.git

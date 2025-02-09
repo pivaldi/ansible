@@ -1,5 +1,5 @@
 - name: Apt Upgrade all
   hosts: all
   tasks:
-    - name: ../roles/commun/tasks/apt.yml
-      include_tasks: ../roles/commun/tasks/apt.yml
+    - name: ../roles/common/tasks/apt.yml
+      include_tasks: ../roles/common/tasks/apt.yml

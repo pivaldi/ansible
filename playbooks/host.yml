@@ -1,5 +1,5 @@
 - name: Set hostname
   hosts: all
   tasks:
-    - name: ../roles/commun/tasks/host.yml
-      include_tasks: ../roles/commun/tasks/host.yml
+    - name: ../roles/common/tasks/host.yml
+      include_tasks: ../roles/common/tasks/host.yml
