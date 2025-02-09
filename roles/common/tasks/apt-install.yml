@@ -1,0 +1,19 @@
+---
+- name: Install a list of packages
+  ansible.builtin.apt:
+    pkg:
+      - git
+      - rsync
+      - htop
+      - nano
+      - locales
+      - fonts-powerline
+      - powerline-gitstatus
+      - tree
+      - exa
+      - delta
+      - iptables
+      - nmap
+      - gpg
+      - crowdsec
+    state: latest

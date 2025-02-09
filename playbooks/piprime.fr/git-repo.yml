@@ -1,4 +1,5 @@
-- name: Create Git repos
+---
+- name: Create Git barre repos
   hosts: piprime.fr
   tasks:
     - name: ../../roles/piprime_fr/tasks/git-repos.yml

@@ -8,16 +8,24 @@
 all:
 	ansible-playbook playbooks/main.yml
 
-.PHONY: upgrade
-upgrade:
-	ansible-playbook playbooks/apt.yml
+.PHONY: apt-upgrade
+apt-upgrade:
+	ansible-playbook playbooks/apt-upgrade.yml
+
+.PHONY: apt-install
+apt-install:
+	ansible-playbook playbooks/apt-install.yml
 
 .PHONY: ping
 piprimefr-ping:
 	ansible piprimefr -m ping && ansible piprimefr -a 'echo test OK'
 
-.PHONY: piprimefr
-piprimefr-tasks:
-	ansible-playbook playbooks/piprime.fr.yml
+.PHONY: piprimefr-playbook
+piprimefr-playbook:
+	ansible-playbook playbooks/piprime.fr/main.yml
+
+.PHONY: piprimefr-git-repo
+piprimefr-git-repo:
+	ansible-playbook playbooks/piprime.fr/git-repo.yml
 
 # end

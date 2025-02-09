@@ -1,0 +1,5 @@
+- name: Apt Upgrade all
+  hosts: all
+  tasks:
+    - name: ../roles/common/tasks/apt-upgrade.yml
+      include_tasks: ../roles/common/tasks/apt-upgrade.yml

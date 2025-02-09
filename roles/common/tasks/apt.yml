@@ -1,26 +1,5 @@
 ---
-- name: Update all packages to their latest version
-  ansible.builtin.apt:
-    name: "*"
-    state: latest
-- name: Upgrade the OS (apt-get dist-upgrade)
-  ansible.builtin.apt:
-    upgrade: dist
-- name: Install a list of packages
-  ansible.builtin.apt:
-    pkg:
-      - git
-      - rsync
-      - htop
-      - nano
-      - locales
-      - fonts-powerline
-      - powerline-gitstatus
-      - tree
-      - exa
-      - delta
-      - iptables
-      - nmap
-      - gpg
-      - crowdsec
-    state: latest
+- name: Include task apt-upgrade.yml
+  include_tasks: apt-upgrade.yml
+- name: Include task apt-install.yml
+  include_tasks: apt-install.yml

@@ -1,4 +1,4 @@
-- name: Apt Upgrade all
+- name: Apt Upgrade all and install default package
   hosts: all
   tasks:
     - name: ../roles/common/tasks/apt.yml

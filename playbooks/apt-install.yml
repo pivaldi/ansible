@@ -1,0 +1,5 @@
+- name: Apt install default common packages all
+  hosts: all
+  tasks:
+    - name: ../roles/common/tasks/apt-install.yml
+      include_tasks: ../roles/common/tasks/apt-install.yml
