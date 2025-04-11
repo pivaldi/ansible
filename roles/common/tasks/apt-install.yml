@@ -2,6 +2,7 @@
 - name: Install a list of packages
   ansible.builtin.apt:
     pkg:
+      - locate
       - git
       - rsync
       - htop
@@ -16,4 +17,5 @@
       - nmap
       - gpg
       - crowdsec
+      - crowdsec-firewall-bouncer
     state: latest

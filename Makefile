@@ -25,7 +25,11 @@ piprimefr-playbook:
 	ansible-playbook playbooks/piprime.fr/main.yml
 
 .PHONY: piprimefr-git-repo
-piprimefr-git-repo:
+piprimefr-git-repo: ## Create the needed Git barre Repositories
 	ansible-playbook playbooks/piprime.fr/git-repo.yml
+
+.PHONY: piprimefr-git-clone
+piprimefr-git-clone: ## Create the needed Git barre Repositories
+	ansible-playbook playbooks/piprime.fr/git-clone.yml
 
 # end

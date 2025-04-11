@@ -2,7 +2,7 @@
 - name: Create Caddyfile template
   template:
     src: Caddyfile.j2
-    dest: /srv/caddy/Caddyfile
+    dest: /opt/caddy-webdav/Caddyfile
 
 - name: Create WebDAV directory
   file:
@@ -23,19 +23,20 @@
           container_name: caddy_webdav
           restart: always
           volumes:
-            - /srv/caddy/Caddyfile:/etc/caddy/Caddyfile
+            - /opt/caddy-webdav/Caddyfile:/etc/caddy/Caddyfile
             - /srv/webdav:/srv
           networks:
-            - web_network
-          ports:
-            - "8080:80"
+            - caddy
+          labels:
+            caddy: webdav.{{ inventory_hostname }}
+             caddy.reverse_proxy: {% raw %}"{{upstreams 80}}"{% endraw %}
 
       networks:
-        web_network:
-          driver: bridge
-    dest: /srv/docker-compose.yml
+        caddy:
+          external: true
+    dest: /opt/caddy-webdav/docker-compose.yml
 
 - name: Run Docker Compose
   command: docker-compose up -d
   args:
-    chdir: /srv
+    chdir: /opt/caddy-webdav

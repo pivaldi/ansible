@@ -1,0 +1,12 @@
+- name: Update Caddyfile
+  ansible.builtin.template:
+    src: ../templates/caddy/Caddyfile
+    dest: /etc/caddy/Caddyfile
+    owner: root
+    group: root
+    mode: "0666"
+    validate: caddy validate --config %s
+    backup: yes
+  ansible.builtin.systemd_service:
+    name: caddy
+    state: reloaded

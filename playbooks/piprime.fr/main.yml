@@ -3,3 +3,5 @@
   hosts: piprime.fr
   roles:
     - piprime.fr
+    - docker
+    - caddy-docker-webdav

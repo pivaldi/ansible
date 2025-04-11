@@ -1,0 +1,6 @@
+---
+- name: Clone Git repos
+  hosts: piprime.fr
+  tasks:
+    - name: ../../roles/piprime.fr/tasks/git-clone.yml
+      include_tasks: ../../roles/piprime.fr/tasks/git-clone.yml

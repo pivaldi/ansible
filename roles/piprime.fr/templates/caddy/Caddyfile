@@ -1,0 +1,7 @@
+blog.piprime.fr {
+	reverse_proxy :4280
+}
+
+www.piprime.fr, piprime.fr {
+    redir https://blog.piprime.fr{uri}
+}

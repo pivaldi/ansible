@@ -1,0 +1,6 @@
+---
+- import_playbook: caddy-docker-proxy.yml
+- name: Configure Docker WebDAV servers
+  hosts: caddy_docker_webdav
+  roles:
+    - caddy-doccker-webdav

@@ -2,6 +2,7 @@
 - name: Create git user
   user:
     name: git
+    password: "*"
     shell: /usr/bin/git-shell
     home: /srv/git
     system: yes
@@ -10,4 +11,6 @@
     user: git
     key: "{{ lookup('file', '../../common/templates/root/.ssh/id_rsa.pub') }}"
     state: present
-  notify: "GitUserConfigured"
+- name: GitUserConfigured
+  ansible.builtin.set_fact:
+    git_user_configured: true

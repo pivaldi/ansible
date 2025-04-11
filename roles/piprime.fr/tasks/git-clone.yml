@@ -1,0 +1,18 @@
+---
+# - name: Ensure the git package is installed
+#   ansible.builtin.package:
+#     name: git
+#     state: present
+- name: Clone multiple repositories
+  set_fact:
+    repositories:
+      - url: "https://github.com/pivaldi/blog.piprime.fr.git"
+        dest: "/usr/local/src/blog.piprime.fr"
+        version: "master"
+- name: Clone repositories
+  ansible.builtin.git:
+    repo: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.version }}"
+    update: yes
+  loop: "{{ repositories }}"

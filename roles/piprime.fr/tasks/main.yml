@@ -1,3 +1,5 @@
 ---
 - name: Initialize Git repositories
   include_tasks: git-repos.yml
+- name: Clone multiple repositories
+  include_tasks: git-clone.yml

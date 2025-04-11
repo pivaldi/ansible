@@ -10,11 +10,9 @@ all:
       node_version: 20
       webdav_login: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | grep ''login:'' | awk ''{print $2}''") }}'
       webdav_password: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | head -1") }}'
-      webdav_directory: "/srv/www/webdav"
+      webdav_directory: "/srv/webdav" ## Needed for role caddy-webdav
   children:
     git_repo:
       hosts: piprime.fr
-    webserver_caddy:
-      hosts: piprime.fr
-    webdav_caddy:
-      hosts: piprime.fr
+    caddy-docker-webdav:
+      hosts: piprime.frx

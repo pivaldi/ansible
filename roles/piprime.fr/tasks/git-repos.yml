@@ -2,9 +2,19 @@
 - ansible.builtin.include_role:
     name: git-repo
   when: git_user_configured is not defined or not git_user_configured
-- name: Initialize bare repository
-  command: git init --bare --shared=group /srv/git/ansible.git
+- name: Registering Git barre repos to create
+  set_fact:
+    gitRepos:
+      - ansible
+      - blog.piprime.fr
+- name: The Git Barre Repositories to Create
+  ansible.builtin.debug:
+    msg: "{{ gitRepos }}"
+- name: Initialize The Git Barre Repositories
+  command: git init --bare --shared=group /srv/git/{{ item }}.git
   args:
-    creates: /srv/git/ansible.git/HEAD
+    creates: /srv/git/{{ item }}.git/HEAD
+  become: yes
   become_user: git
   when: git_user_configured is defined and git_user_configured
+  loop: "{{ gitRepos }}"

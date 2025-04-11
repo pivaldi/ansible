@@ -2,5 +2,5 @@
 - name: Create Git barre repos
   hosts: piprime.fr
   tasks:
-    - name: ../../roles/piprime_fr/tasks/git-repos.yml
-      include_tasks: ../../roles/piprime_fr/tasks/git-repos.yml
+    - name: ../../roles/piprime.fr/tasks/git-repos.yml
+      include_tasks: ../../roles/piprime.fr/tasks/git-repos.yml

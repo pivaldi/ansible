@@ -1,0 +1,47 @@
+---
+- name: Create directory for caddy-docker-proxy
+  ansible.builtin.file:
+    path: /opt/caddy-docker-proxy
+    state: directory
+    mode: "0755"
+
+- name: Create docker-compose.yml for caddy-docker-proxy
+  ansible.builtin.copy:
+    dest: /opt/caddy-docker-proxy/docker-compose.yml
+    content: |
+      version: "3.8"
+
+      services:
+        caddy:
+          image: lucaslorentz/caddy-docker-proxy:latest
+          container_name: caddy-docker-proxy
+          ports:
+            - "80:80"
+            - "443:443"
+          volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - caddy_data:/data
+            - caddy_config:/config
+          environment:
+            - CADDY_INGRESS_NETWORKS=caddy
+          networks:
+            - caddy
+          restart: unless-stopped
+
+      networks:
+        caddy:
+          external: true
+
+      volumes:
+        caddy_data:
+        caddy_config:
+
+- name: Create the external Docker network if it does not exist
+  ansible.builtin.command:
+    cmd: docker network create caddy
+  ignore_errors: true
+
+- name: Deploy caddy-docker-proxy using docker-compose
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: /opt/caddy-docker-proxy

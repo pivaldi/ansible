@@ -8,7 +8,7 @@
       - ../templates/root/.inputrc
       - ../templates/root/.profile
       - ../templates/root/.psqlrc
-- name: Print the find_result
+- name: Print the Home User Files
   ansible.builtin.debug:
     msg: "{{ homeUserFiles }}"
 

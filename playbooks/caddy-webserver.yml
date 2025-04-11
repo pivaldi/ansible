@@ -3,4 +3,4 @@
   hosts: webserver-caddy
   roles:
     - common
-    - webserver-caddy
+    - caddy-webserver
