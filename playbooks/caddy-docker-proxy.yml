@@ -1,0 +1,6 @@
+---
+- name: Configure all caddy docker webdav server
+  hosts: caddy_docker_webdav
+  roles:
+    # - common
+    - caddy-docker-webdav

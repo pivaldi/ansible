@@ -1,10 +1,16 @@
 ---
+- name: Create directory for caddy-docker-proxy
+  ansible.builtin.file:
+    path: /opt/caddy-webdav
+    state: directory
+    mode: "0755"
+
 - name: Create Caddyfile template
   template:
     src: Caddyfile.j2
     dest: /opt/caddy-webdav/Caddyfile
 
-- name: Create WebDAV directory
+- name: Create Docker WebDAV directory
   file:
     path: /srv/webdav
     state: directory

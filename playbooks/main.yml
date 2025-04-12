@@ -4,16 +4,20 @@
   roles:
     - common
 - name: Configure Caddy web servers
-  hosts: webserver_caddy
+  hosts: caddy_webserver
   roles:
-    - webserver-caddy
-# - name: Configure WebDAV servers with Caddy
-#   hosts: webdav_caddy
-#   roles:
-#     - webdav-caddy
-# - name: Configure Git servers
-#   hosts: git_repo
-#   roles:
-#     - git-repo
-# - name: Specific tasks on piprime.fr
-#   import_playbook: piprime.fr/main.yml
+    - caddy-webserver
+- name: Configure WebDAV servers with Caddy
+  hosts: caddy_webdav
+  roles:
+    - caddy-webdav
+- name: Configure Git servers
+  hosts: git_repo
+  roles:
+    - git-repo
+- name: Configure Caddy Docker Webdav
+  hosts: caddy_docker_webdav
+  roles:
+    - caddy-docker-webdav
+- name: Specific tasks on piprime.fr
+  import_playbook: piprime.fr/main.yml

@@ -14,5 +14,5 @@ all:
   children:
     git_repo:
       hosts: piprime.fr
-    caddy-docker-webdav:
-      hosts: piprime.frx
+    caddy_docker_webdav:
+      hosts: piprime.fr
