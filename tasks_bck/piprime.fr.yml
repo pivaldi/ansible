@@ -1,8 +1,5 @@
 - name: install
   hosts: gandi
-  vars:
-    old_username: debian
-    new_username: pi
   handlers:
   tasks:
     - name: Update sshd Configuration
@@ -24,63 +21,9 @@
         key_options: ""
         exclusive: yes
 
-    - name: Check if {{ old_username }} user exists
-      ansible.builtin.command: id -un {{ old_username }} 2>/dev/null
-      register: old_user
-      ignore_errors: yes
-
-      # - name: Kill all running {{ old_username }} user processes
-      #   command: pkill -u {{ old_username }}
-      #   when: old_user.rc == 0
-      #   ignore_errors: yes
-
-    - name: Get default group name for {{ old_username }} user
-      ansible.builtin.command: id -gn {{ old_username }}
-      register: old_group
-      when: old_user.rc == 0
-
-    - name: Rename pi group
-      command: groupmod -n {{ new_username }} {{ old_group.stdout }}
-      when: (old_user.rc == 0 and old_group.stdout != new_username)
-
-    - name: Rename user
-      command: |
-        usermod --login {{ old_username }} {{ old_username }}
-        usermod -u 1000 -g 1000 {{ new_username }}
-        groupmod -g 1000 {{ new_username }}
-        usermod -aG {{ new_username }},adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev {{ new_username }}
-        chsh -s /usr/bin/bash {{ new_username }}
-      when: old_user.rc == 0
-
-    - name: Move home directory "{{ old_username }}" to "{{ new_username }}"
-      user:
-        name: "{{ old_username }}"
-        home: "/home/{{ new_username }}"
-        move_home: yes
-      when: old_user.rc == 0
-
-    - name: Set new password to "{{ new_username }}"
-      user:
-        name: "{{ new_username }}"
-        password: "{{ rpassword | password_hash('sha512') }}"
-      when: old_user.rc == 0
-
-    - name: Remove the {{ old_username }} user
-      user:
-        name: "{{ old_username }}"
-        state: absent
-        remove: yes
-      when: old_user.rc == 0
-
-    - name: Remove the user's home directory of {{ old_username }} user
-      file:
-        path: /home/{{ old_username }}
-        state: absent
-      when: old_user.rc == 0
-
-    - name: Set authorized key for pi
+    - name: Set authorized key for {{ username }}
       ansible.posix.authorized_key:
-        user: pi
+        user: { { username } }
         state: present
         key: "{{ lookup('file', 'system-tree/default/tree/root/.ssh/id_rsa.pub') }}"
         key_options: ""
@@ -111,14 +54,14 @@
         backup: yes
       loop: "{{ homeUserFiles }}"
 
-    - name: Copy {{ new_username }} user config files
+    - name: Copy {{ username }} user config files
       vars:
-        username: "{{ new_username }}"
+        username: "{{ username }}"
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: /home/{{ new_username }}
-        owner: "{{ new_username }}"
-        group: "{{ new_username }}"
+        dest: /home/{{ username }}
+        owner: "{{ username }}"
+        group: "{{ username }}"
         mode: u=rw,g=r,o=r
         backup: yes
       loop: "{{ homeUserFiles }}"

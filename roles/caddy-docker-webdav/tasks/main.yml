@@ -35,7 +35,7 @@
             - caddy
           labels:
             caddy: webdav.{{ inventory_hostname }}
-             caddy.reverse_proxy: {% raw %}"{{upstreams 80}}"{% endraw %}
+            caddy.reverse_proxy: {% raw %}"{{upstreams 80}}"{% endraw %}
 
       networks:
         caddy:

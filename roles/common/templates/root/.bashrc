@@ -2,14 +2,14 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-[[ ! -z "${BASH_ARGC}${BASH_ARGV}" ]] && ISINCLUDED=yes || ISINCLUDED=no
+[ ! -z "${BASH_ARGC}${BASH_ARGV}" ] && ISINCLUDED=yes || ISINCLUDED=no
 
 # dont do anything for non-interactive shells
 [[ -z "$PS1" ]] && [[ "$ISINCLUDED" == "no" ]] && return
 
 iatest=$(expr index "$-" i)
 
-if [[ $iatest > 0 ]]; then
+if [[ $iatest -gt 0 ]]; then
   # Disable the bell
   bind "set bell-style visible"
 
@@ -250,7 +250,7 @@ type ng &>/dev/null && source <(ng completion script)
 # Load npm autocompletion.
 type npm &>/dev/null && source <(npm completion)
 
-SOURCE_FILES="/home/pi/.deno/env
+SOURCE_FILES="/home/{{ username }}/.deno/env
 /usr/local/etc/bash_completion.d/deno.bash
 /usr/share/powerline/bindings/bash/powerline.sh
 $HOME/.cargo/env

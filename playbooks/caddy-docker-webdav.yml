@@ -3,5 +3,4 @@
 - name: Configure Docker WebDAV servers
   hosts: caddy_docker_webdav
   roles:
-    - docker
     - caddy-docker-webdav

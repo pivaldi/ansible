@@ -10,7 +10,7 @@
 
 Include /etc/ssh/sshd_config.d/*.conf
 
-Port {{ ansible_port }}
+Port {{ new_ansible_port }}
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::

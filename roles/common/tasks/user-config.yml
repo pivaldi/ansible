@@ -24,14 +24,14 @@
     backup: yes
   loop: "{{ homeUserFiles }}"
 
-- name: Copy user new_username config files
+- name: Copy user {{ username }} config files
   vars:
-    username: "{{ new_username }}"
+    username: "{{ username }}"
   ansible.builtin.template:
     src: "{{ item }}"
-    dest: /home/{{ new_username }}
-    owner: "{{ new_username }}"
-    group: "{{ new_username }}"
+    dest: /home/{{ username }}
+    owner: "{{ username }}"
+    group: "{{ username }}"
     mode: u=rw,g=r,o=r
     backup: yes
   loop: "{{ homeUserFiles }}"
