@@ -1,0 +1,5 @@
+- name: Install Docker
+  hosts: all
+  tasks:
+    - name: ../roles/docker/tasks/main.yml
+      include_tasks: ../roles/docker/tasks/main.yml

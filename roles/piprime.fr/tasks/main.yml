@@ -3,3 +3,5 @@
   include_tasks: git-repos.yml
 - name: Clone multiple repositories
   include_tasks: git-clone.yml
+- name: Deploy blog.piprime.fr for caddy-docker-proxy
+  include_tasks: blog.yml

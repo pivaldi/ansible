@@ -18,4 +18,5 @@
       - gpg
       - crowdsec
       - crowdsec-firewall-bouncer
+      - make
     state: latest

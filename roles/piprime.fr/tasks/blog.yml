@@ -1,0 +1,4 @@
+- name: Deploy blog.piprime.fr for caddy-docker-proxy
+  ansible.builtin.command:
+    cmd: make deploy-caddy-docker-proxy
+    chdir: /usr/local/src/blog.piprime.fr/

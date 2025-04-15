@@ -1,0 +1,17 @@
+---
+- name: Ensure locales package is installed
+  ansible.builtin.apt:
+    name: locales
+    state: present
+    update_cache: yes
+
+- name: Generate locales
+  ansible.builtin.command:
+    cmd: locale-gen fr_FR.UTF-8 en_US.UTF-8 C.UTF-8
+
+- name: set as default locale
+  command: localectl set-locale LANG=en_US.UTF-8
+
+- name: Reconfigure locales to apply changes
+  ansible.builtin.command:
+    cmd: dpkg-reconfigure --frontend=noninteractive locales

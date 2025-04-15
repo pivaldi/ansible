@@ -1,26 +1,76 @@
 ---
-- name: Update apt cache
-  apt:
-    update_cache: yes
+- name: Check if docker key exists
+  stat:
+    path: /etc/apt/keyrings/docker.gpg
+  register: docker_gpg
 
-- name: Install Docker dependencies
+- name: Create APT keyring directory
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Download docker armored signature
+  get_url:
+    url: https://download.docker.com/linux/debian/gpg
+    dest: /tmp/docker.asc
+  when: not docker_gpg.stat.exists
+
+- name: Dearmor docker asc
+  command: /usr/bin/gpg --dearmor -o /etc/apt/keyrings/docker.gpg /tmp/docker.asc
+  when: not docker_gpg.stat.exists
+
+- name: Add docker apt repository
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+    state: present
+    update_cache: yes
+    filename: docker
+
+- name: Install Docker Engine
   apt:
     name:
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - gnupg
-      - lsb-release
-      - docker.io
-    state: present
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
 
-- name: Install Docker Compose
-  apt:
-    name: docker-compose
-    state: present
+- name: Add user to docker group
+  user:
+    name: "{{ username }}"
+    groups: docker
+    append: yes
 
 - name: Start Docker service
   service:
     name: docker
     state: started
     enabled: yes
+# ---
+# - name: Update apt cache
+#   apt:
+#     update_cache: yes
+
+# - name: Install Docker dependencies
+#   apt:
+#     name:
+#       - apt-transport-https
+#       - ca-certificates
+#       - curl
+#       - gnupg
+#       - lsb-release
+#       - docker.io
+#     state: present
+
+# - name: Install Docker Compose
+#   apt:
+#     name: docker-compose
+#     state: present
+
+# - name: Start Docker service
+#   service:
+#     name: docker
+#     state: started
+#     enabled: yes

@@ -1,0 +1,5 @@
+- name: Configure Sshd and Root User
+  hosts: all
+  tasks:
+    - name: ../roles/common/tasks/locales.yml
+      include_tasks: ../roles/common/tasks/locales.yml

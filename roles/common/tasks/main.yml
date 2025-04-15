@@ -9,3 +9,5 @@
   include_tasks: iptable.yml
 - name: host.yml
   include_tasks: host.yml
+- name: locales.yml
+  include_tasks: locales.yml

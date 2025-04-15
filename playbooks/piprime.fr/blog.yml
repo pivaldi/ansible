@@ -1,0 +1,6 @@
+---
+- name: Deploy blog.piprime.fr for caddy-docker-proxy
+  hosts: piprime.fr
+  tasks:
+    - name: ../../roles/piprime.fr/tasks/blog.yml
+      include_tasks: ../../roles/piprime.fr/tasks/blog.yml
