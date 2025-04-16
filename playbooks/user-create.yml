@@ -1,6 +1,6 @@
-- name: Create new_username
+- name: Create new_default_user
   hosts: all
   tasks:
     - name: ../roles/common/tasks/user-create.yml
       include_tasks: ../roles/common/tasks/user-create.yml
-      when: old_username is not defined and new_username is defined
+      when: old_default_user is not defined and new_default_user is defined

@@ -250,7 +250,7 @@ type ng &>/dev/null && source <(ng completion script)
 # Load npm autocompletion.
 type npm &>/dev/null && source <(npm completion)
 
-SOURCE_FILES="/home/{{ username }}/.deno/env
+SOURCE_FILES="/home/{{ default_user }}/.deno/env
 /usr/local/etc/bash_completion.d/deno.bash
 /usr/share/powerline/bindings/bash/powerline.sh
 $HOME/.cargo/env

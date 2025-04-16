@@ -1,63 +1,63 @@
 ---
 - name: Include password setting fact "rpassword"
   include_tasks: password.yml
-- name: Check if {{ old_username }} user exists
-  ansible.builtin.command: id -un {{ old_username }} 2>/dev/null
+- name: Check if {{ old_default_user }} user exists
+  ansible.builtin.command: id -un {{ old_default_user }} 2>/dev/null
   register: old_user
   ignore_errors: yes
 
-  # - name: Kill all running {{ old_username }} user processes
-  #   command: pkill -u {{ old_username }}
+  # - name: Kill all running {{ old_default_user }} user processes
+  #   command: pkill -u {{ old_default_user }}
   #   when: old_user.rc == 0
   #   ignore_errors: yes
 
-- name: Get default group name for {{ old_username }} user
-  ansible.builtin.command: id -gn {{ old_username }}
+- name: Get default group name for {{ old_default_user }} user
+  ansible.builtin.command: id -gn {{ old_default_user }}
   register: old_group
   when: old_user.rc == 0
 
 - name: Rename pi group
-  command: groupmod -n {{ new_username }} {{ old_group.stdout }}
-  when: (old_user.rc == 0 and old_group.stdout != new_username)
+  command: groupmod -n {{ new_default_user }} {{ old_group.stdout }}
+  when: (old_user.rc == 0 and old_group.stdout != new_default_user)
 
 - name: Rename user
   command: |
-    usermod --login {{ old_username }} {{ old_username }}
-    usermod -u 1000 -g 1000 {{ new_username }}
-    groupmod -g 1000 {{ new_username }}
-    usermod -aG {{ new_username }},adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev {{ new_username }}
-    chsh -s /usr/bin/bash {{ new_username }}
+    usermod --login {{ old_default_user }} {{ old_default_user }}
+    usermod -u 1000 -g 1000 {{ new_default_user }}
+    groupmod -g 1000 {{ new_default_user }}
+    usermod -aG {{ new_default_user }},adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev {{ new_default_user }}
+    chsh -s /usr/bin/bash {{ new_default_user }}
   when: old_user.rc == 0
 
-- name: Move home directory "{{ old_username }}" to "{{ new_username }}"
+- name: Move home directory "{{ old_default_user }}" to "{{ new_default_user }}"
   user:
-    name: "{{ old_username }}"
-    home: "/home/{{ new_username }}"
+    name: "{{ old_default_user }}"
+    home: "/home/{{ new_default_user }}"
     move_home: yes
   when: old_user.rc == 0
 
-- name: Set new password to "{{ new_username }}"
+- name: Set new password to "{{ new_default_user }}"
   user:
-    name: "{{ new_username }}"
+    name: "{{ new_default_user }}"
     password: "{{ rpassword | password_hash('sha512') }}"
   when: old_user.rc == 0
 
-- name: Remove the {{ old_username }} user
+- name: Remove the {{ old_default_user }} user
   user:
-    name: "{{ old_username }}"
+    name: "{{ old_default_user }}"
     state: absent
     remove: yes
   when: old_user.rc == 0
 
-- name: Remove the user's home directory of {{ old_username }} user
+- name: Remove the user's home directory of {{ old_default_user }} user
   file:
-    path: /home/{{ old_username }}
+    path: /home/{{ old_default_user }}
     state: absent
   when: old_user.rc == 0
 
 - name: Set authorized key for pi
   ansible.posix.authorized_key:
-    user: "{{ new_username }}"
+    user: "{{ new_default_user }}"
     state: present
     key: "{{ lookup('file', '../templates/root/.ssh/id_rsa.pub') }}"
     key_options: ""

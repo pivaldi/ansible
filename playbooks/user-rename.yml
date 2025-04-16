@@ -1,6 +1,6 @@
-- name: Rename old_username to new_username
+- name: Rename old_default_user to new_default_user
   hosts: all
   tasks:
     - name: ../roles/common/tasks/user-rename.yml
       include_tasks: ../roles/common/tasks/user-rename.yml
-      when: old_username is defined and new_username is defined
+      when: old_default_user is defined and new_default_user is defined

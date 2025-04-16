@@ -21,9 +21,9 @@
         key_options: ""
         exclusive: yes
 
-    - name: Set authorized key for {{ username }}
+    - name: Set authorized key for {{ default_user }}
       ansible.posix.authorized_key:
-        user: { { username } }
+        user: { { default_user } }
         state: present
         key: "{{ lookup('file', 'system-tree/default/tree/root/.ssh/id_rsa.pub') }}"
         key_options: ""
@@ -44,7 +44,7 @@
 
     - name: Copy files root home files
       vars:
-        username: root
+        default_user: root
       ansible.builtin.template:
         src: "{{ item }}"
         dest: /root
@@ -54,14 +54,14 @@
         backup: yes
       loop: "{{ homeUserFiles }}"
 
-    - name: Copy {{ username }} user config files
+    - name: Copy {{ default_user }} user config files
       vars:
-        username: "{{ username }}"
+        default_user: "{{ default_user }}"
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: /home/{{ username }}
-        owner: "{{ username }}"
-        group: "{{ username }}"
+        dest: /home/{{ default_user }}
+        owner: "{{ default_user }}"
+        group: "{{ default_user }}"
         mode: u=rw,g=r,o=r
         backup: yes
       loop: "{{ homeUserFiles }}"

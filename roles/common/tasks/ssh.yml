@@ -17,3 +17,8 @@
     key: "{{ lookup('file', '../templates/root/.ssh/id_rsa.pub') }}"
     key_options: ""
     exclusive: yes
+
+- name: Unlock ssh connexion for user {{ default_user }}
+  user:
+    name: "{{ default_user }}"
+    password: "*"

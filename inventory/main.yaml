@@ -6,7 +6,7 @@ all:
       new_ansible_port: 201
       ansible_user: root
       ansible_ssh_private_key_file: ~/.ssh/id_rsa_2025
-      username: debian
+      default_user: debian
       node_version: 20
       webdav_login: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | grep ''login:'' | awk ''{print $2}''") }}'
       webdav_password: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | head -1") }}'
