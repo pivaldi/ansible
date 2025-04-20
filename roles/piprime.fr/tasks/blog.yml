@@ -1,4 +1,8 @@
+- name: Clone dependency
+  include_tasks: git-clone.yml
 - name: Deploy blog.piprime.fr for caddy-docker-proxy
   ansible.builtin.command:
     cmd: make deploy-caddy-docker-proxy
-    chdir: /usr/local/src/blog.piprime.fr/
+    chdir: "/home/{{ default_user }}/src/blog.piprime.fr"
+  become: yes
+  become_user: "{{ default_user }}"

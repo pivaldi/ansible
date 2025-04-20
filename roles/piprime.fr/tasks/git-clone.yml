@@ -7,7 +7,7 @@
   set_fact:
     repositories:
       - url: "https://github.com/pivaldi/blog.piprime.fr.git"
-        dest: "/usr/local/src/blog.piprime.fr"
+        dest: "/home/{{ default_user }}/src/blog.piprime.fr"
         version: "master"
 - name: Clone repositories
   ansible.builtin.git:
@@ -16,3 +16,5 @@
     version: "{{ item.version }}"
     update: yes
   loop: "{{ repositories }}"
+  become: yes
+  become_user: "{{ default_user }}"

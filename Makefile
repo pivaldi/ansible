@@ -32,4 +32,7 @@ piprimefr-git-repo: ## Create the needed Git barre Repositories
 piprimefr-git-clone: ## Create the needed Git barre Repositories
 	ansible-playbook playbooks/piprime.fr/git-clone.yml
 
+.PHONY: piprimefr-blog
+piprimefr-blog: ## Git pull the blog and regenrate the public directory
+	ansible-playbook playbooks/piprime.fr/blog.yml
 # end

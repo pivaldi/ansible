@@ -45,3 +45,5 @@
   ansible.builtin.command:
     cmd: docker-compose up -d
     chdir: /opt/caddy-docker-proxy
+  become: yes
+  become_user: "{{ default_user }}"
