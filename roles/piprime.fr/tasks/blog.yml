@@ -1,5 +1,10 @@
 - name: Clone dependency
   include_tasks: git-clone.yml
+- name: Syncing Asymptote build to Hexo
+  ansible.builtin.command:
+    cmd: make asy-remote-sync
+    chdir: "/home/pi/code/pi/piprime-blog"
+  delegate_to: localhost
 - name: Deploy blog.piprime.fr for caddy-docker-proxy
   ansible.builtin.command:
     cmd: make deploy-caddy-docker-proxy
