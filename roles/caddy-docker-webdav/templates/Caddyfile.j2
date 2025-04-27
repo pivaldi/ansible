@@ -4,12 +4,14 @@
   email letsencrypt@ivaldi.me
 }
 
-webdav.{{ inventory_hostname }} {
+:809 {
   root * /srv
-  basicauth {
+  basic_auth {
     {{ webdav_login }} {{ webdav_password }}
   }
+
   file_server browse
+
   log {
     output file /var/log/caddy/webdav_access.log {
       roll_size 5MiB

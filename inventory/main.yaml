@@ -9,7 +9,7 @@ all:
       default_user: debian
       node_version: 20
       webdav_login: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | grep ''login:'' | awk ''{print $2}''") }}'
-      webdav_password: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | head -1") }}'
+      webdav_password: '{{ lookup(''ansible.builtin.pipe'', "pass webdav.piprime.fr | head -1 | caddy hash-password") }}'
       webdav_directory: "/srv/webdav" ## Needed for role caddy-webdav
   children:
     git_repo:

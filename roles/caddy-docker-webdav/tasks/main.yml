@@ -21,8 +21,6 @@
 - name: Create Docker Compose file
   copy:
     content: |
-      version: '3.8'
-
       services:
         caddy_webdav:
           image: caddy:2
@@ -35,7 +33,7 @@
             - caddy
           labels:
             caddy: webdav.{{ inventory_hostname }}
-            caddy.reverse_proxy: {% raw %}"{{upstreams 80}}"{% endraw %}
+            caddy.reverse_proxy: {% raw %}"{{ upstreams 809 }}"{% endraw %}
 
       networks:
         caddy:
@@ -43,6 +41,6 @@
     dest: /opt/caddy-webdav/docker-compose.yml
 
 - name: Run Docker Compose
-  command: docker-compose up -d
+  command: docker compose up -d
   args:
     chdir: /opt/caddy-webdav
