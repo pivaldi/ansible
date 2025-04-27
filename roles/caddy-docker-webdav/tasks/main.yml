@@ -6,29 +6,35 @@
     mode: "0755"
 
 - name: Create Caddyfile template
-  template:
+  ansible.builtin.template:
     src: Caddyfile.j2
     dest: /opt/caddy-webdav/Caddyfile
 
 - name: Create Docker WebDAV directory
-  file:
-    path: /srv/webdav
+  ansible.builtin.file:
+    path: "{{ item }}"
     state: directory
     owner: www-data
     group: www-data
     mode: "0755"
+  with_items:
+    - /opt/caddy-webdav/data
+    - /opt/caddy-webdav/config
+    - /srv/webdav
 
 - name: Create Docker Compose file
-  copy:
+  ansible.builtin.copy:
     content: |
       services:
         caddy_webdav:
-          image: caddy:2
+          image: juvenn/caddy-dav:2.7.6
           container_name: caddy_webdav
           restart: always
           volumes:
-            - /opt/caddy-webdav/Caddyfile:/etc/caddy/Caddyfile
+            - /opt/caddy-webdav/Caddyfile:/etc/caddy/Caddyfile:ro
             - /srv/webdav:/srv
+            - /opt/caddy-webdav/data:/data
+            - /opt/caddy-webdav/config:/config
           networks:
             - caddy
           labels:
@@ -38,6 +44,7 @@
       networks:
         caddy:
           external: true
+
     dest: /opt/caddy-webdav/docker-compose.yml
 
 - name: Run Docker Compose

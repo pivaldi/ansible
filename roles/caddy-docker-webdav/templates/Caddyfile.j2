@@ -2,15 +2,20 @@
   # Global options block
   # Optional email key for letsencrypt
   email letsencrypt@ivaldi.me
+  order webdav before file_server
 }
 
 :809 {
   root * /srv
-  basic_auth {
+  basicauth {
     {{ webdav_login }} {{ webdav_password }}
   }
 
-  file_server browse
+  @get method GET
+  file_server @get browse
+  webdav {
+    root /srv
+  }
 
   log {
     output file /var/log/caddy/webdav_access.log {
